@@ -49,12 +49,14 @@ We also attach a ChatBot model for user reference.
 ### Execution steps
 Host
 ```C
+$ git clone https://github.com/AastaNV/ChatBot.git
 $ cd $CHATBOT_ROOT
 $ python src/tf_to_uff/tf_to_trt.py model/ID210_649999 model/ID210_649999.uff
 ```
 
 Device
 ```C
+$ git clone https://github.com/AastaNV/ChatBot.git
 $ wget https://raw.githubusercontent.com/numpy/numpy/master/tools/swig/numpy.i -P $CHATBOT_ROOT/src/
 $ cd $CHATBOT_ROOT
 $ make
@@ -103,7 +105,6 @@ $ python chatbot.py model/ID210.pickle model/ID210_649999.uff
 </br>
 </br>
 </br>
-                                                                                                                                                                                           182,5         Bot
 
 # Export TensorFlow Model to UFF Format
 ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) **Please run this step on host** ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)
