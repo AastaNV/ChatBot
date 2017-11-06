@@ -26,6 +26,8 @@ We also include chatbot training and x86 chatbot source(pure python) for user re
 3. <a href=https://developer.nvidia.com/tensorrt>LINK</a> TensorRT 3 RC
 </br>
 Please get <a href=https://developer.nvidia.com/cuda-downloads>CUDA 9</a> and <a href=https://developer.nvidia.com/tensorrt>TensorRT 3 RC</a> installed first.
+</br>
+
 ```C
 sudo apt-get install python-pip
 sudo apt-get install swig
