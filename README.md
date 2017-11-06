@@ -31,6 +31,7 @@ sudo apt-get install python-pip
 sudo apt-get install swig
 sudo pip install numpy
 ```
+
 **Host**
 </br>
 1. <a href=http://releases.ubuntu.com/16.04/>LINK</a> Ubuntu16.04
