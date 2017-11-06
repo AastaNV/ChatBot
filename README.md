@@ -24,13 +24,30 @@ We also include chatbot training and x86 chatbot source(pure python) for user re
 1. <a href=https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/>LINK</a> Jetson TX2
 2. <a href=https://developer.nvidia.com/embedded/jetpack>LINK</a> JetPack 3.1
 3. <a href=https://developer.nvidia.com/tensorrt>LINK</a> TensorRT 3 RC
-
+Please get <a href=https://developer.nvidia.com/cuda-downloads>CUDA 9</a> and <a href=https://developer.nvidia.com/tensorrt>TensorRT 3 RC</a> installed first.
+```C
+sudo apt-get install python-pip
+sudo apt-get install swig
+sudo pip install numpy
+```
 **Host**
 </br>
 1. <a href=http://releases.ubuntu.com/16.04/>LINK</a> Ubuntu16.04
 2. <a href=https://developer.nvidia.com/cuda-downloads>LINK</a> CUDA Toolkit 9
 3. <a href=https://developer.nvidia.com/tensorrt>LINK</a> TensorRT 3 RC
 </br>
+Please get <a href=https://developer.nvidia.com/cuda-downloads>CUDA 9</a> and <a href=https://developer.nvidia.com/tensorrt>TensorRT 3 RC</a> installed first.
+</br>
+Due to TensorFlow doesn't support CUDA 9 yet, please install CPU-only TensorFlow:
+```C
+sudo apt-get install python-pip
+sudo pip install tensorflow
+```
+Install dependency:
+```C
+sudo apt-get install swig
+sudo pip install numpy
+```
 </br>
 
 
