@@ -23,6 +23,7 @@ We also include chatbot training and x86 chatbot source(pure python) for user re
 </br>
 1. <a href=https://devblogs.nvidia.com/parallelforall/jetson-tx2-delivers-twice-intelligence-edge/>LINK</a> Jetson TX2
 2. <a href=https://developer.nvidia.com/embedded/jetpack>LINK</a> JetPack 3.2
+</br>
 Please flash your device with <a href=https://developer.nvidia.com/embedded/jetpack>JetPack3.2</a> first.
 
 ```C
@@ -36,6 +37,7 @@ sudo pip install numpy
 1. <a href=http://releases.ubuntu.com/16.04/>LINK</a> Ubuntu16.04
 2. <a href=https://developer.nvidia.com/cuda-downloads>LINK</a> CUDA Toolkit 9
 3. <a href=https://developer.nvidia.com/tensorrt>LINK</a> TensorRT 3
+</br>
 Please get <a href=https://developer.nvidia.com/cuda-downloads>CUDA 9</a> and <a href=https://developer.nvidia.com/tensorrt>TensorRT 3 RC</a> installed first.
 </br>
 
