@@ -1,3 +1,29 @@
+# Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#  * Neither the name of NVIDIA CORPORATION nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+# OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 import tensorflow as tf
 import numpy as np
 
@@ -16,6 +42,7 @@ def Embedding(params):
     def unit(x):
         return tf.matmul(x, W)
     return unit
+
 
 def LSTMEncoder(params):
     Wi  = tf.get_variable(name='Encoder.Wi',initializer=tf.random_normal([EMB_LEN, DIM]))
@@ -63,6 +90,7 @@ def LSTMEncoder(params):
         return current_hidden_state
     return unit
 
+
 def MapEncoder(params):
     Wo = tf.get_variable(name='Encoder.Wo',initializer=tf.random_normal([DIM, ENC_LEN]))
     bo = tf.get_variable(name='Encoder.bo',initializer=tf.random_normal([ENC_LEN]))
@@ -72,6 +100,7 @@ def MapEncoder(params):
         logits = tf.matmul(hidden_state, Wo) + bo
         return logits
     return unit
+
 
 def LSTMDecoder(params):
     Wi  = tf.get_variable(name='Generator.Wi',initializer=tf.random_normal([EMB_LEN+ENC_LEN, DIM]))
@@ -115,6 +144,7 @@ def LSTMDecoder(params):
         return current_hidden_state
     return unit
 
+
 def MapDecoder(params):
     Wo = tf.get_variable(name='Generator.Wo',initializer=tf.random_normal([DIM, VOC_LEN]))
     bo = tf.get_variable(name='Generator.bo',initializer=tf.random_normal([VOC_LEN]))
@@ -124,6 +154,7 @@ def MapDecoder(params):
         logits = tf.matmul(hidden_state, Wo) + bo
         return logits
     return unit
+
 
 def getChatBotModel(filepath):
     with tf.Session() as session:

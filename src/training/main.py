@@ -1,3 +1,29 @@
+# Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#  * Neither the name of NVIDIA CORPORATION nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+# OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 import os, sys
 sys.path.append(os.getcwd())
 
@@ -22,6 +48,7 @@ DATA_NAME = 'cornell_pair'
 VOC_LEN = 4096
 MAX_N_EXAMPLES = 217377
 
+
 if not os.path.exists("%s.pickle" % DATA_NAME):
     lines, wmap, iwmap = Parser.readCornellPair(dataset=DATA_NAME, maxline=MAX_N_EXAMPLES, maxlen=SEQ_LEN, maxvoc=VOC_LEN)
     with open("%s.pickle" % DATA_NAME, 'w') as f:
@@ -33,12 +60,15 @@ else:
 
 log = open(time.strftime("log/main_%Y%m%d_%H%M%S"),"w")
 
+
 def myprint(line):
     print line
     log.write(line+"\n")
 
+
 def init_matrix(shape):
     return tf.random_normal(shape, stddev=0.1)
+
 
 def Embedding(params):
     W = tf.get_variable(name='Embedding.W',initializer=init_matrix([VOC_LEN, EMB_LEN]))
@@ -46,6 +76,7 @@ def Embedding(params):
     def unit(x):
         return tf.nn.embedding_lookup(W, x)
     return unit
+
 
 def LSTMEncoder(params):
     Wi  = tf.get_variable(name='Encoder.Wi',initializer=init_matrix([EMB_LEN, DIM]))
@@ -88,6 +119,7 @@ def LSTMEncoder(params):
         return tf.stack([current_hidden_state, c])
     return unit
 
+
 def MapEncoder(params):
     Wo = tf.get_variable(name='Encoder.Wo',initializer=init_matrix([DIM, ENC_LEN]))
     bo = tf.get_variable(name='Encoder.bo',initializer=init_matrix([ENC_LEN]))
@@ -98,6 +130,7 @@ def MapEncoder(params):
         logits = tf.matmul(hidden_state, Wo) + bo
         return logits
     return unit
+
 
 def LSTMDecoder(params):
     Wi  = tf.get_variable(name='Generator.Wi',initializer=init_matrix([EMB_LEN+ENC_LEN, DIM]))
@@ -141,6 +174,7 @@ def LSTMDecoder(params):
         return tf.stack([current_hidden_state, c])
     return unit
 
+
 def MapDecoder(params):
     Wo = tf.get_variable(name='Generator.Wo',initializer=init_matrix([DIM, VOC_LEN]))
     bo = tf.get_variable(name='Generator.bo',initializer=init_matrix([VOC_LEN]))
@@ -151,6 +185,7 @@ def MapDecoder(params):
         logits = tf.matmul(hidden_state, Wo) + bo
         return logits
     return unit
+
 
 def LSTMDiscriminator(params):
     Wi  = tf.get_variable(name='Discriminator.Wi',initializer=init_matrix([VOC_LEN*2, DIM]))
@@ -193,6 +228,7 @@ def LSTMDiscriminator(params):
         return tf.stack([current_hidden_state, c]) 
     return unit
 
+
 def MapDiscriminator(params):
     Wo = tf.get_variable(name='Discriminator.Wo',initializer=init_matrix([DIM, 1]))
     bo = tf.get_variable(name='Discriminator.bo',initializer=init_matrix([1]))
@@ -203,6 +239,7 @@ def MapDiscriminator(params):
         logits = tf.matmul(hidden_state, Wo) + bo
         return logits
     return unit
+
 
 def Sample(inputs_c, inputs_x):
     inputs = tf.transpose(inputs_c, perm=[1,0,2])
@@ -246,6 +283,7 @@ def Sample(inputs_c, inputs_x):
                                                                    start, h_t, n_t, predictions, samples))
     return tf.transpose(samples.stack(), perm=[1,0])
 
+
 def Generator(inputs_c, inputs_x):
     inputs = tf.transpose(inputs_c, perm=[1,0,2])
     input_token = tensor_array_ops.TensorArray(dtype=tf.float32,size=SEQ_LEN)
@@ -287,6 +325,7 @@ def Generator(inputs_c, inputs_x):
                                                          start, h_t, n_t, predictions, samples))
     return tf.transpose(predictions.stack(), perm=[1, 0, 2]), tf.transpose(samples.stack(), perm=[1,0])
 
+
 def Discriminator(inputs_c, inputs_x):
     inputs = tf.concat([inputs_c, inputs_x], 2)
     inputs = tf.transpose(inputs, perm=[1,0,2])
@@ -315,6 +354,7 @@ def inf_train_gen():
             question = np.array(question,dtype='int32')
             answer = np.array(answer,dtype='int32')
             yield list(zip(question, answer))
+
 
 real_inputs_discrete_c = tf.placeholder(tf.int32, shape=[BATCH_SIZE, SEQ_LEN])
 real_inputs_discrete_x = tf.placeholder(tf.int32, shape=[BATCH_SIZE, SEQ_LEN])
