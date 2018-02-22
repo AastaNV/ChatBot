@@ -38,7 +38,7 @@ sudo pip install numpy
 2. <a href=https://developer.nvidia.com/cuda-downloads>LINK</a> CUDA Toolkit 9
 3. <a href=https://developer.nvidia.com/tensorrt>LINK</a> TensorRT 3
 </br>
-Please get <a href=https://developer.nvidia.com/cuda-downloads>CUDA 9</a> and <a href=https://developer.nvidia.com/tensorrt>TensorRT 3 RC</a> installed first.
+Please get <a href=https://developer.nvidia.com/cuda-downloads>CUDA 9</a> and <a href=https://developer.nvidia.com/tensorrt>TensorRT 3</a> installed first.
 </br>
 
 ```C
@@ -64,15 +64,17 @@ We also attach a ChatBot model for user reference.
 5. Our model is GAN.
 
 ### Execution steps
-Host
+Host: convert TF model into UFF format
 ```C
 $ git clone https://github.com/AastaNV/ChatBot.git
 $ cd $CHATBOT_ROOT
 $ python src/tf_to_uff/tf_to_trt.py model/ID210_649999 model/ID210_649999.uff
+$ scp model/ID210_649999.uff nvidia@[device IP]:$CHATBOT_ROOT/model/
 ```
 
-Device
+Device: create TensorRT engine with the converted UFF file
 ```C
+$ 
 $ git clone https://github.com/AastaNV/ChatBot.git
 $ wget https://raw.githubusercontent.com/numpy/numpy/master/tools/swig/numpy.i -P $CHATBOT_ROOT/src/
 $ cd $CHATBOT_ROOT
